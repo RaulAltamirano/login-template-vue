@@ -4,9 +4,7 @@
 </script>
 
 <template>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <title>Improved Login Form</title>
-
   <div class="bg-card p-8 rounded shadow-lg max-w-md w-full">
     <h2 class="text-2xl font-bold text-gray-800 mb-8">Login</h2>
     <form>
