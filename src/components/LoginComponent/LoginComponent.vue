@@ -1,3 +1,5 @@
+<script lang="ts" src="./LoginComponent"/>
+
 <template>
   <v-container fluid class="bg-gradient-to-r from-teal-500 to-blue-600 min-h-screen bg-svg-background">
     <v-row justify="center" align="center" class="min-h-screen">
@@ -69,28 +71,3 @@
   }
 }
 </style>
-
-<script lang="ts">
-
-import { defineComponent, ref, } from 'vue';
-
-export default defineComponent({
-  name: 'login-form',
-  setup() {
-    const password = ref<string>('')
-    const email = ref<string>('')
-    const showPassword = ref<boolean>(false)
-    const rememberMe = ref<boolean>(false)
-    return {
-      password,
-      email,
-      showPassword,
-      rememberMe,
-      login() {
-        console.log('submit');
-      }
-    }
-  }
-}
-)
-</script>
