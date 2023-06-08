@@ -1,3 +1,5 @@
+<script lang="ts" src="./SignupComponent"/>
+
 <template>
 	<v-container fluid class="bg-gradient-to-r from-teal-500 to-blue-600 min-h-screen bg-svg-background">
 		<v-row justify="center" align="center" class="min-h-screen">
@@ -28,17 +30,6 @@
 	</v-container>
 </template>
   
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-	name: 'signup-form',
-	setup() {
-		return {
-		}
-	}
-}
-)
-</script>
 
 <style>
 .bg-svg-background {
@@ -53,7 +44,6 @@ export default defineComponent({
 }
 
 @keyframes bounce {
-
 	0%,
 	100% {
 		transform: translateY(-10%);
@@ -67,14 +57,11 @@ export default defineComponent({
 .animate-pulse {
 	animation: pulse 1s infinite;
 }
-
 @keyframes pulse {
-
 	0%,
 	100% {
 		opacity: 1;
 	}
-
 	50% {
 		opacity: 0.5;
 	}
