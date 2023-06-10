@@ -4,7 +4,8 @@
   <v-row align="center" justify="center" class="h-100">
     <v-col cols="12" md="8" lg="6" class="text-center">
       <v-card class="elevation-12">
-        <v-img gradient="to right, #667eea, #764ba2" height="300">
+        <v-img style="  background-image: url('src/assets/waves.svg');
+" gradient="to right, #667eea, #764ba2" height="300">
           <v-card-title class="text-center">
             <h1 class="text-white">
               Welcome to Login
