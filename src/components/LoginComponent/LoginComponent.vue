@@ -17,7 +17,6 @@
             <v-form @submit="login">
               <v-text-field v-model="email" label="Email" outlined required></v-text-field>
               <v-text-field v-model="password" label="Password" outlined required type="password"></v-text-field>
-              <v-checkbox v-model="rememberMe" label="Remember me" color="primary"></v-checkbox>
               <v-btn color="secondary" dark block type="submit" class="animate-pulse">Sign In</v-btn>
             </v-form>
           </v-card-text>
