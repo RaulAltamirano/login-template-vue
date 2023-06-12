@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL,
-  timeout: 5000,
+  baseURL: 'http://localhost:3000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +14,7 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     const errorResponse = error.response;
     if (errorResponse) {
-      console.error('Response Error:', errorResponse.data);
+      console.error('Response Error:', errorResponse);
     } else if (error.request) {
       console.error('Request Error:', error.request);
     } else {
@@ -25,7 +24,22 @@ api.interceptors.response.use(
   }
 );
 
-const ApiService = {
+// api.interceptors.request.use(
+//   (config: AxiosRequestConfig) => {
+//     const token = getTokenFromLocalStorage(); // Implement your token retrieval logic
+//     if (token) {
+//       config.headers['Authorization'] = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error: AxiosError) => {
+//     console.error('Request Error:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+
+export const ApiService = {
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
       const response = await api.get<T>(url, config);
@@ -35,14 +49,14 @@ const ApiService = {
     }
   },
 
-  async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+  async post<T>(res: { url: string, data?: any, config?: AxiosRequestConfig }): Promise<T> {
+    const { url, config, data } = res
     try {
       const response = await api.post<T>(url, data, config);
-      return response.data;
+      return response as any
     } catch (error) {
       throw error;
     }
   },
 };
 
-export default ApiService;
