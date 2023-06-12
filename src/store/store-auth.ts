@@ -1,13 +1,28 @@
 import { defineStore } from 'pinia';
 
-export const useAuthStore = defineStore('auth-store', {
-    state: () => ({
-        loginStatus: false,
-    }),
-    actions: {
+import { User } from '../interfaces/user-interface';
 
-    },
-    getters: {
-        doubleCount: (state) => state.loginStatus,
-    },
+interface AuthStore {
+	statusLogin: boolean,
+	userLogged: User | undefined,
+	loadinglogin: boolean
+}
+
+export const useAuthStore = defineStore('auth', {
+	state: (): AuthStore => ({
+		loadinglogin: false,
+		statusLogin: false,
+		userLogged: undefined,
+	}),
+	actions: {
+		setLoginUser(user: User) {
+			this.userLogged = user;
+		},
+		// setRegisterUser(register: RegisterUser) {
+		//   this.register = register;
+		// },
+	},
+	getters: {
+		currentLoginUserState: (state: AuthStore) => state.userLogged,
+	},
 });
