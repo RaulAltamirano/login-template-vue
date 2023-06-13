@@ -1,12 +1,12 @@
 # Login
 
-Login with Rotation Token using Vue.js, TypeScript, Pinia, and Tailwind CSS
+Login with Rotation Token using Vue.js, TypeScript, Pinia, Tailwind CSS, SweetAlert2, CryptoJS, and IDB.
 
 ## Project Overview
 
 This project is a login application that utilizes rotating tokens for enhanced security. The main features include user registration, login functionality, and token rotation to ensure secure authentication.
 
-The project uses Vue.js as the frontend framework along with TypeScript for static typing. It also utilizes Pinia for state management, Axios for making HTTP requests, and Tailwind CSS for styling.
+The project uses Vue.js as the frontend framework along with TypeScript for static typing. It also utilizes Pinia for state management, Axios for making HTTP requests, Tailwind CSS for styling, SweetAlert2 for displaying alerts and modals, CryptoJS for cryptographic operations, and IDB for storing data in IndexedDB.
 
 ## Prerequisites
 
