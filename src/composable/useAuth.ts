@@ -1,10 +1,15 @@
+import { computed } from 'vue';
+
 import { storeToRefs } from 'pinia';
+
+import { postLoginUser, postRefreshToken } from '../utils/options-auth';
+
 import { useAuthStore } from '../store/store-auth';
-import { postLoginUser } from '../utils/options-auth';
-import { Credentials } from '../interfaces/user-credentials';
 import { useSweetAlert } from './useSweetAlert';
-import { User } from '../interfaces/user-interface';
 import { useRefreshTokenStorage } from './useToken';
+
+import { Credentials } from '../interfaces/user-credentials';
+import { User } from '../interfaces/user-interface';
 
 export const useAuth = () => {
 	const authStore = useAuthStore();
@@ -29,19 +34,42 @@ export const useAuth = () => {
 				sweetAlert.showErrorAlert('The user was not found');
 				return;
 			}
-			const { token } = res;
-			await useToken.storeRefreshToken(token.refreshToken);
-			const savedRefreshToken = await useToken.getRefreshToken();
-			console.log(savedRefreshToken);
+			if (!res.token) {
+				sweetAlert.showErrorAlert('The token was not found');
+				return;
+			}
+			await useToken.storeRefreshToken(res.token.refreshToken);
+			delete res.token
+			authStore.setLoginUser(res)
 			return res;
 		} catch (error) {
 			console.error('Error logging in:', error);
 			sweetAlert.showErrorAlert('An error occurred while logging in');
-			return;
 		}
 	};
+	const onUpdateRefreshToken = async () => {
+		const refreshToken = await useToken.getRefreshToken();
+		if (!refreshToken)
+			return sweetAlert.showErrorAlert('The token was not found');
+		try {
+			const { ok, message, res } = await postRefreshToken(refreshToken)
+			if (!ok)
+				sweetAlert.showErrorAlert(message);
+			if (!res)
+				sweetAlert.showErrorAlert('Error it could not recover refresh token');
+			await useToken.storeRefreshToken(res.token.refreshToken);
+			console.info('refresh token update');
+		} catch (error) {
+			console.error(error);
+		}
+
+	}
 
 	return {
+		// Methods
 		onLoginUser,
+		onUpdateRefreshToken,
+		// Getters
+		getRefreshToken: computed(() => authStore.currentRefreshTokenState)
 	};
 };
