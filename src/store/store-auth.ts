@@ -5,7 +5,8 @@ import { User } from '../interfaces/user-interface';
 interface AuthStore {
 	statusLogin: boolean,
 	userLogged: User | undefined,
-	loadinglogin: boolean
+	loadinglogin: boolean,
+	refreshToken: string,
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -13,16 +14,18 @@ export const useAuthStore = defineStore('auth', {
 		loadinglogin: false,
 		statusLogin: false,
 		userLogged: undefined,
+		refreshToken: ''
 	}),
 	actions: {
 		setLoginUser(user: User) {
 			this.userLogged = user;
 		},
-		// setRegisterUser(register: RegisterUser) {
-		//   this.register = register;
-		// },
+		setRefreshToken(refresh: string) {
+			this.refreshToken = refresh
+		}
 	},
 	getters: {
 		currentLoginUserState: (state: AuthStore) => state.userLogged,
+		currentRefreshTokenState: (state) => state.refreshToken,
 	},
 });
