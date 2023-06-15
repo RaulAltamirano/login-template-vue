@@ -1,5 +1,4 @@
 import { onMounted, ref } from 'vue';
-
 import { openDB } from 'idb';
 import { AES, enc } from 'crypto-js';
 
@@ -18,51 +17,54 @@ export const useRefreshTokenStorage = () => {
 					db.createObjectStore('tokens', { keyPath: 'id' });
 			},
 		});
-	}
+	};
 
-	const storeRefreshToken = async (refreshToken: string) => {
+	const storeTokens = async (tokens: { accessToken: string, refreshToken: string }) => {
+		const { accessToken, refreshToken } = tokens
 		try {
-			const encryptedToken = encryptToken(refreshToken);
-			const tokenData = { id: 1, refreshToken: encryptedToken };
+			const encryptedAccessToken = encryptToken(accessToken);
+			const encryptedRefreshToken = encryptToken(refreshToken);
+			const tokenData = { id: 1, accessToken: encryptedAccessToken, refreshToken: encryptedRefreshToken };
 			await db.value.put('tokens', tokenData);
-			authStore.setRefreshToken(tokenData.refreshToken)
+			authStore.setRefreshToken(tokenData.refreshToken);
 		} catch (error) {
-			console.error('Error storing refresh token:', error);
+			console.error('Error storing tokens:', error);
 		}
-	}
+	};
 
-	const getRefreshToken = async () => {
+	const getTokens = async () => {
 		try {
 			const tokenData = await db.value.get('tokens', 1);
 			if (tokenData) {
-				const decryptedToken = decryptToken(tokenData.refreshToken);
-				return decryptedToken;
+				const decryptedAccessToken = decryptToken(tokenData.accessToken);
+				const decryptedRefreshToken = decryptToken(tokenData.refreshToken);
+				return { accessToken: decryptedAccessToken, refreshToken: decryptedRefreshToken };
 			}
 			return null;
 		} catch (error) {
-			console.error('Error retrieving refresh token:', error);
+			console.error('Error retrieving tokens:', error);
 			return null;
 		}
-	}
+	};
 
 	const encryptToken = (token: string) => {
 		const encryptedToken = AES.encrypt(token, encryptionKey, {
 			iv: enc.Hex.parse('00000000000000000000000000000000'),
 		});
 		return encryptedToken.toString();
-	}
+	};
 
 	const decryptToken = (encryptedToken: string) => {
 		const decryptedToken = AES.decrypt(encryptedToken, encryptionKey, {
 			iv: enc.Hex.parse('00000000000000000000000000000000'),
 		});
 		return decryptedToken.toString(enc.Utf8);
-	}
+	};
 
-	onMounted(initIndexedDB)
+	onMounted(initIndexedDB);
 
 	return {
-		storeRefreshToken,
-		getRefreshToken,
+		storeTokens,
+		getTokens,
 	};
-}
+};
