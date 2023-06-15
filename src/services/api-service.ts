@@ -1,4 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { useRefreshTokenStorage } from "../composable/useToken";
+
+const { getAccessToken } = useRefreshTokenStorage()
 
 const api: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -24,19 +27,15 @@ api.interceptors.response.use(
   }
 );
 
-// api.interceptors.request.use(
-//   (config: AxiosRequestConfig) => {
-//     const token = getTokenFromLocalStorage(); // Implement your token retrieval logic
-//     if (token) {
-//       config.headers['Authorization'] = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error: AxiosError) => {
-//     console.error('Request Error:', error);
-//     return Promise.reject(error);
-//   }
-// );
+api.interceptors.request.use(async (config) => {
+  const accessToken = await getAccessToken();
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
 
 
 export const ApiService = {
