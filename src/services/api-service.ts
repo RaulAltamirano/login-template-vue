@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useRefreshTokenStorage } from "../composable/useToken";
 
-const { getAccessToken } = useRefreshTokenStorage()
+const { getTokens } = useRefreshTokenStorage()
 
 const api: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -28,9 +28,9 @@ api.interceptors.response.use(
 );
 
 api.interceptors.request.use(async (config) => {
-  const accessToken = await getAccessToken();
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  const tokens = await getTokens();
+  if (tokens) {
+    config.headers.Authorization = `Bearer ${tokens.accessToken}`;
   }
   return config;
 }, error => {
