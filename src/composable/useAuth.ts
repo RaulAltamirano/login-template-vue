@@ -56,13 +56,13 @@ export const useAuth = () => {
 			if (!ok)
 				sweetAlert.showErrorAlert(message);
 			if (!res)
-				sweetAlert.showErrorAlert('Error it could not recover refresh token');
+				sweetAlert.showErrorAlert('Unable to retrieve the refresh token');
 			await useToken.storeRefreshToken(res.token.refreshToken);
 			console.info('refresh token update');
 		} catch (error) {
-			console.error(error);
+			console.error('Error updating refresh token:', error);
+			sweetAlert.showErrorAlert('An error occurred while updating the refresh token');
 		}
-
 	}
 
 	return {
