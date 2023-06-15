@@ -38,7 +38,10 @@ export const useAuth = () => {
 				sweetAlert.showErrorAlert('The token was not found');
 				return;
 			}
-			await useToken.storeRefreshToken(res.token.refreshToken);
+			await useToken.storeTokens({
+				accessToken: res.token.accessToken,
+				refreshToken: res.token.refreshToken
+			});
 			delete res.token
 			authStore.setLoginUser(res)
 			return res;
@@ -48,20 +51,25 @@ export const useAuth = () => {
 		}
 	};
 	const onUpdateRefreshToken = async () => {
-		const refreshToken = await useToken.getRefreshToken();
-		if (!refreshToken)
+		authStore.setLoadingRefreshToken(true)
+		const token = await useToken.getTokens();
+		if (!token)
 			return sweetAlert.showErrorAlert('The token was not found');
 		try {
-			const { ok, message, res } = await postRefreshToken(refreshToken)
+			const { ok, message, res } = await postRefreshToken(token.refreshToken)
 			if (!ok)
 				sweetAlert.showErrorAlert(message);
 			if (!res)
 				sweetAlert.showErrorAlert('Unable to retrieve the refresh token');
-			await useToken.storeRefreshToken(res.token.refreshToken);
-			console.info('refresh token update');
+			await useToken.storeTokens({
+				accessToken: res.token.accessToken,
+				refreshToken: res.token.refreshToken
+			}); console.info('refresh token update');
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
 			sweetAlert.showErrorAlert('An error occurred while updating the refresh token');
+		} finally {
+			authStore.setLoadingRefreshToken(false)
 		}
 	}
 
@@ -70,6 +78,7 @@ export const useAuth = () => {
 		onLoginUser,
 		onUpdateRefreshToken,
 		// Getters
-		getRefreshToken: computed(() => authStore.currentRefreshTokenState)
+		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
+		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState)
 	};
 };
