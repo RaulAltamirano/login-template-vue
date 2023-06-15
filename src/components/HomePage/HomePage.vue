@@ -13,8 +13,13 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="secondary" large rounded @click="refreshToken">
+          <v-btn :loading="getLoadingRefreshToken" block color="secondary" large rounded @click="refreshToken">
             Refresh Token
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn block color="primary" large rounded>
+            Protected route
           </v-btn>
         </v-card-actions>
         <v-card-text>
