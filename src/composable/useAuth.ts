@@ -10,6 +10,7 @@ import { useRefreshTokenStorage } from './useToken';
 
 import { Credentials } from '../interfaces/user-credentials';
 import { User } from '../interfaces/user-interface';
+import { Token } from '../interfaces/user-token';
 
 export const useAuth = () => {
 	const authStore = useAuthStore();
@@ -50,7 +51,7 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert('An error occurred while logging in');
 		}
 	};
-	const refreshAccessToken = async (refreshToken: string) => {
+	const refreshAccessToken = async (refreshToken: string): Promise<Token> => {
 		try {
 			const { ok, message, res } = await postRefreshToken(refreshToken);
 			if (!ok) {
@@ -59,13 +60,13 @@ export const useAuth = () => {
 			if (!res) {
 				throw new Error('Unable to retrieve the refresh token');
 			}
-			return res.token.accessToken;
+			return res;
 		} catch (error) {
 			console.error('Error refreshing access token:', error);
 			throw new Error('An error occurred while refreshing the access token');
 		}
 	};
-	
+
 	const updateRefreshToken = async () => {
 		try {
 			authStore.setLoadingRefreshToken(true);
@@ -73,11 +74,13 @@ export const useAuth = () => {
 			if (!token) {
 				throw new Error('The token was not found');
 			}
-			const newAccessToken = await refreshAccessToken(token.refreshToken);
-			await useToken.storeTokens({
-				accessToken: newAccessToken,
-				refreshToken: token.refreshToken,
+			console.log(token.accessToken);
+			const newTokens = await refreshAccessToken(token.refreshToken);
+			const example = await useToken.storeTokens({
+				accessToken: newTokens.accessToken,
+				refreshToken: newTokens.refreshToken,
 			});
+			console.log(example);
 			console.info('Refresh token updated');
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
@@ -86,7 +89,7 @@ export const useAuth = () => {
 			authStore.setLoadingRefreshToken(false);
 		}
 	};
-	
+
 	const onUpdateRefreshToken = async () => {
 		try {
 			await updateRefreshToken();
@@ -94,7 +97,7 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert(error);
 		}
 	};
-	
+
 	return {
 		// Methods
 		onLoginUser,
