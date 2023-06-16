@@ -3,6 +3,7 @@ import { openDB } from 'idb';
 import { AES, enc } from 'crypto-js';
 
 import { useAuthStore } from '../store/store-auth';
+import { Token } from '../interfaces/user-token';
 
 export const useRefreshTokenStorage = () => {
 	const authStore = useAuthStore();
@@ -19,7 +20,7 @@ export const useRefreshTokenStorage = () => {
 		});
 	};
 
-	const storeTokens = async (tokens: { accessToken: string, refreshToken: string }) => {
+	const storeTokens = async (tokens: Token) => {
 		const { accessToken, refreshToken } = tokens
 		try {
 			const encryptedAccessToken = encryptToken(accessToken);
