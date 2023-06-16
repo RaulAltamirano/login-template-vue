@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { openDB } from 'idb';
 import { AES, enc } from 'crypto-js';
 
@@ -19,6 +19,7 @@ export const useRefreshTokenStorage = () => {
 			},
 		});
 	};
+	initIndexedDB()
 
 	const storeTokens = async (tokens: Token) => {
 		const { accessToken, refreshToken } = tokens
@@ -59,10 +60,8 @@ export const useRefreshTokenStorage = () => {
 		const decryptedToken = AES.decrypt(encryptedToken, encryptionKey, {
 			iv: enc.Hex.parse('00000000000000000000000000000000'),
 		});
-		return decryptedToken.toString(enc.Utf8);
+		return decryptedToken.toString();
 	};
-
-	onMounted(initIndexedDB);
 
 	return {
 		storeTokens,
