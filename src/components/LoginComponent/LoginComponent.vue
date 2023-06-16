@@ -15,7 +15,7 @@
           </v-row>
           <v-card-text class="px-8 py-6">
             <v-form @submit="login">
-              <v-text-field v-model="email" label="Email" outlined required></v-text-field>
+              <v-text-field v-model="email" label="Email" outlined  required></v-text-field>
               <v-text-field v-model="password" label="Password" outlined required type="password"></v-text-field>
               <v-btn color="secondary" dark block type="submit" class="animate-pulse">Sign In</v-btn>
             </v-form>
