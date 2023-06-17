@@ -2,6 +2,7 @@ import { ApiService } from '../services/api-service';
 
 import { Credentials } from '../interfaces/user-credentials';
 import { User } from '../interfaces/user-interface';
+import { Token } from '../interfaces/user-token';
 
 export const postLoginUser = async (credentials: Credentials) => {
 	const URL = '/auth/login';
@@ -20,7 +21,7 @@ export const postLoginUser = async (credentials: Credentials) => {
 export const postRefreshToken = async (refreshToken: string) => {
 	const URL = '/auth/refresh-token';
 	try {
-		const res = await ApiService.post<any>({
+		const res = await ApiService.post<Token>({
 			url: URL,
 			data: {
 				refreshToken: refreshToken
