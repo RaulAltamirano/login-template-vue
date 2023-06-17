@@ -74,13 +74,12 @@ export const useAuth = () => {
 			if (!token) {
 				throw new Error('The token was not found');
 			}
-			console.log(token.accessToken);
 			const newTokens = await refreshAccessToken(token.refreshToken);
-			const example = await useToken.storeTokens({
-				accessToken: newTokens.accessToken,
-				refreshToken: newTokens.refreshToken,
-			});
-			console.log(example);
+			console.log(newTokens);
+			// await useToken.storeTokens({
+			// 	accessToken: newTokens.accessToken,
+			// 	refreshToken: newTokens.refreshToken,
+			// });
 			console.info('Refresh token updated');
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
