@@ -11,24 +11,36 @@ export const useRefreshTokenStorage = () => {
 	const db = ref<any>(null);
 	const encryptionKey = 'example';
 
-	const initIndexedDB = async () => {
-		db.value = await openDB('skeleton-example', 1, {
-			upgrade(db) {
-				if (!db.objectStoreNames.contains('tokens'))
-					db.createObjectStore('tokens', { keyPath: 'id' });
-			},
-		});
-	};
-	initIndexedDB()
+	const initIndexedDB = (() => {
+		let initialized = false;
+		return async () => {
+			if (!initialized) {
+				db.value = await openDB('skeleton-example', 1, {
+					upgrade(db) {
+						if (!db.objectStoreNames.contains('tokens')) {
+							db.createObjectStore('tokens', { keyPath: 'id' });
+						}
+					},
+				});
+
+				initialized = true;
+			}
+		};
+	})();
+	initIndexedDB();
 
 	const storeTokens = async (tokens: Token) => {
-		const { accessToken, refreshToken } = tokens
+		const { accessToken, refreshToken } = tokens;
+		authStore.setRefreshToken(refreshToken);
 		try {
 			const encryptedAccessToken = encryptToken(accessToken);
 			const encryptedRefreshToken = encryptToken(refreshToken);
-			const tokenData = { id: 1, accessToken: encryptedAccessToken, refreshToken: encryptedRefreshToken };
+			const tokenData = {
+				id: 1,
+				accessToken: encryptedAccessToken,
+				refreshToken: encryptedRefreshToken,
+			};
 			await db.value.put('tokens', tokenData);
-			authStore.setRefreshToken(tokenData.refreshToken);
 		} catch (error) {
 			console.error('Error storing tokens:', error);
 		}
@@ -60,11 +72,12 @@ export const useRefreshTokenStorage = () => {
 		const decryptedToken = AES.decrypt(encryptedToken, encryptionKey, {
 			iv: enc.Hex.parse('00000000000000000000000000000000'),
 		});
-		return decryptedToken.toString();
+		return decryptedToken.toString(enc.Utf8);
 	};
 
 	return {
 		storeTokens,
 		getTokens,
+		initIndexedDB,
 	};
 };
