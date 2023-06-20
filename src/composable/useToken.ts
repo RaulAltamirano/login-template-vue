@@ -2,11 +2,9 @@ import { ref } from 'vue';
 import { openDB } from 'idb';
 import { AES, enc } from 'crypto-js';
 
-import { useAuthStore } from '../store/store-auth';
 import { Token } from '../interfaces/user-token';
 
 export const useRefreshTokenStorage = () => {
-	const authStore = useAuthStore();
 
 	const db = ref<any>(null);
 	const encryptionKey = 'example';
@@ -22,7 +20,6 @@ export const useRefreshTokenStorage = () => {
 						}
 					},
 				});
-
 				initialized = true;
 			}
 		};
@@ -31,7 +28,6 @@ export const useRefreshTokenStorage = () => {
 
 	const storeTokens = async (tokens: Token) => {
 		const { accessToken, refreshToken } = tokens;
-		authStore.setRefreshToken(refreshToken);
 		try {
 			const encryptedAccessToken = encryptToken(accessToken);
 			const encryptedRefreshToken = encryptToken(refreshToken);
