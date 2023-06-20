@@ -43,6 +43,7 @@ export const useAuth = () => {
 				accessToken: res.token.accessToken,
 				refreshToken: res.token.refreshToken
 			});
+			authStore.setRefreshToken(res.token.refreshToken)
 			delete res.token
 			authStore.setLoginUser(res)
 			return res;
@@ -74,13 +75,13 @@ export const useAuth = () => {
 			if (!token) {
 				throw new Error('The token was not found');
 			}
-			const newTokens = await refreshAccessToken(token.refreshToken);
-			console.log(newTokens);
-			// await useToken.storeTokens({
-			// 	accessToken: newTokens.accessToken,
-			// 	refreshToken: newTokens.refreshToken,
-			// });
-			console.info('Refresh token updated');
+			const { accessToken, refreshToken } = await refreshAccessToken(token.refreshToken);
+			await useToken.storeTokens({
+				accessToken,
+				refreshToken,
+			});
+			console.log(refreshToken);
+			authStore.setRefreshToken(refreshToken)
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
 			throw new Error('An error occurred while updating the refresh token');
