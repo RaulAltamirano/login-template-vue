@@ -52,7 +52,7 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert('An error occurred while logging in');
 		}
 	};
-	const refreshAccessToken = async (refreshToken: string): Promise<Token> => {
+	const refreshAccessToken = async (refreshToken: string) => {
 		try {
 			const { ok, message, res } = await postRefreshToken(refreshToken);
 			if (!ok) {
@@ -75,13 +75,13 @@ export const useAuth = () => {
 			if (!token) {
 				throw new Error('The token was not found');
 			}
-			const { accessToken, refreshToken } = await refreshAccessToken(token.refreshToken);
+			const newTokens = await refreshAccessToken(token.refreshToken);
 			await useToken.storeTokens({
-				accessToken,
-				refreshToken,
+				accessToken: newTokens.accessToken,
+				refreshToken: newTokens.refreshToken,
 			});
-			console.log(refreshToken);
-			authStore.setRefreshToken(refreshToken)
+			console.log(newTokens);
+			authStore.setRefreshToken(newTokens.refreshToken)
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
 			throw new Error('An error occurred while updating the refresh token');
