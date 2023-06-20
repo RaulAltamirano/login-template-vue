@@ -27,6 +27,9 @@ export const useAuthStore = defineStore('auth', {
 		},
 		setLoadingRefreshToken(value: boolean) {
 			this.loadingRefreshToken = value
+		},
+		setStatusLogin(value: boolean) {
+			this.statusLogin = value
 		}
 	},
 	getters: {
