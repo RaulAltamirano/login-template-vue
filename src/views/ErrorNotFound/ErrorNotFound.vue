@@ -1,3 +1,5 @@
+<script lang="ts" src="./ErrorNotFound"/>
+
 <template>
   <v-container class="flex items-center justify-center h-screen">
     <div class="text-center">
@@ -83,10 +85,4 @@
 
 
 
-<script lang="ts">
-import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'ErrorNotFound',
-});
-</script>
