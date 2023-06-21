@@ -18,7 +18,7 @@
           </v-btn>
         </v-card-actions>
         <v-card-actions>
-          <v-btn block color="primary" large rounded>
+          <v-btn block color="primary" large rounded @click="toProtectedRoute">
             Protected route
           </v-btn>
         </v-card-actions>
