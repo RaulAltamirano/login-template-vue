@@ -4,7 +4,7 @@ import { useRefreshTokenStorage } from "../composable/useToken";
 const { getTokens } = useRefreshTokenStorage()
 
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: process.env.API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
