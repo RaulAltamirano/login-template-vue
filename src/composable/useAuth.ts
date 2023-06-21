@@ -52,7 +52,7 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert('An error occurred while logging in');
 		}
 	};
-	const refreshAccessToken = async (refreshToken: string) => {
+	const refreshAccessToken = async (refreshToken: string): Promise<Token> => {
 		try {
 			const { ok, message, res } = await postRefreshToken(refreshToken);
 			if (!ok) {
@@ -80,7 +80,6 @@ export const useAuth = () => {
 				accessToken: newTokens.accessToken,
 				refreshToken: newTokens.refreshToken,
 			});
-			console.log(newTokens);
 			authStore.setRefreshToken(newTokens.refreshToken)
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
