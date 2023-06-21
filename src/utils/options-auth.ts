@@ -21,14 +21,17 @@ export const postLoginUser = async (credentials: Credentials) => {
 export const postRefreshToken = async (refreshToken: string) => {
 	const URL = '/auth/refresh-token';
 	try {
-		const res = await ApiService.post<Token>({
+		const res = await ApiService.post<any>({
 			url: URL,
 			data: {
 				refreshToken: refreshToken
 			}
 		});
 		if (!res) return { ok: false };
-		return { ok: true, res };
+		return {
+			ok: true,
+			res: res.token as Token
+		};
 	} catch (error) {
 		console.error('Error occurred during refresh token update:', error);
 		return { ok: false, message: 'An error occurred during refresh token update. Please try again later.' };
