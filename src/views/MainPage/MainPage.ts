@@ -1,6 +1,6 @@
 
 import { defineComponent, ref } from 'vue';
-import AuthenticatingPage from '../../components/AuthenticatingPage/AuthenticatingPage.vue';
+import AuthenticatingPage from '../AuthenticatingPage/AuthenticatingPage.vue';
 export default defineComponent({
   name: 'authenticating-page',
   components: { AuthenticatingPage },
