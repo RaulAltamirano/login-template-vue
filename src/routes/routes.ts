@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 
+import isAuthenticatedGuard from '../guards/auth-guard'
 // Importar componentes de forma asíncrona para una carga más eficiente
 const LoginPage = () => import('../components/LoginComponent/LoginComponent.vue');
 const SignupPage = () => import('../components/SignupComponent/SignupComponent.vue');
@@ -22,12 +23,14 @@ const signupRoute: RouteRecordRaw = {
 const homeRoute: RouteRecordRaw = {
   path: '/home',
   name: 'home-page',
+  beforeEnter: [isAuthenticatedGuard],
   component: HomePage,
 };
 
 const protectedRoute: RouteRecordRaw = {
   path: '/protected',
   name: 'protected-route',
+  beforeEnter: [isAuthenticatedGuard],
   component: ProtectedRoute,
 };
 
