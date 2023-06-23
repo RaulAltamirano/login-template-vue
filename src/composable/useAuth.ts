@@ -96,10 +96,15 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert(error);
 		}
 	};
+	const checkStatusLogin = () => {
+		console.log('Authenticated');
+		return true
+	}
 
 	return {
 		// Methods
 		onLoginUser,
+		checkStatusLogin,
 		onUpdateRefreshToken,
 		// Getters
 		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
