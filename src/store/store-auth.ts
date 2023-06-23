@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', {
 	},
 	getters: {
 		currentLoginUserState: (state: AuthStore) => state.userLogged,
-		currentRefreshTokenState: (state) => state.refreshToken,
-		loadingRefreshTokenState: (state) => state.loadingRefreshToken,
+		currentRefreshTokenState: (state: AuthStore) => state.refreshToken,
+		loadingRefreshTokenState: (state: AuthStore) => state.loadingRefreshToken,
 	},
 });
