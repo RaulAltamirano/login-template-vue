@@ -2,7 +2,7 @@ import { computed } from 'vue';
 
 import { storeToRefs } from 'pinia';
 
-import { postLoginUser, postRefreshToken } from '../utils/options-auth';
+import { getCheckStatusLogin, postLoginUser, postRefreshToken } from '../utils/options-auth';
 
 import { useAuthStore } from '../store/store-auth';
 import { useSweetAlert } from './useSweetAlert';
@@ -96,9 +96,23 @@ export const useAuth = () => {
 			sweetAlert.showErrorAlert(error);
 		}
 	};
-	const checkStatusLogin = () => {
-		console.log('Authenticated');
-		return true
+	const checkStatusLogin = async (): Promise<User | undefined> => {
+		const token = await useToken.getTokens();
+		if (!token) {
+			throw new Error('The token was not found');
+		}
+		const { refreshToken } = token
+		const { ok, message, res } = await getCheckStatusLogin(refreshToken)
+		if (!ok) {
+			console.error('Error chech authentication:', message);
+			return
+		}
+		if (!res) {
+			console.error('Error chech authentication:', message);
+			return
+		}
+		authStore.setLoginUser(res)
+		return res
 	}
 
 	return {
@@ -108,6 +122,7 @@ export const useAuth = () => {
 		onUpdateRefreshToken,
 		// Getters
 		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
-		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState)
+		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState),
+		getCurrentLoginUser: computed(() => authStore.currentLoginUserState),
 	};
 };
