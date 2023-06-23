@@ -1,15 +1,21 @@
 
-import { defineComponent, ref } from 'vue';
-import AuthenticatingPage from '../AuthenticatingPage/AuthenticatingPage.vue';
+import { defineComponent } from 'vue';
+
+import AuthenticatingPage from '../AuthenticatingPage/AuthenticatingPage';
+
+import { useAuth } from '../../composable/useAuth';
+
 export default defineComponent({
   name: 'authenticating-page',
   components: { AuthenticatingPage },
   setup() {
-    const isAuth = ref<boolean>(false)
-    // const {checkStatusLogin}= useAuth()
+    const {
+      checkStatusLogin,
+      getCurrentLoginUser
+    } = useAuth()
+    checkStatusLogin()
     return {
-      isAuth,
-      // checkStatusLogin
+      getCurrentLoginUser,
     }
   }
 }
