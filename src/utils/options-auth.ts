@@ -37,4 +37,20 @@ export const postRefreshToken = async (refreshToken: string) => {
 		return { ok: false, message: 'An error occurred during refresh token update. Please try again later.' };
 	}
 }
+export const getCheckStatusLogin = async (refreshToken: string) => {
+	const URL = '/auth/check-login';
+	try {
+		const res = await ApiService.post<User>({
+			url: URL,
+			data: {
+				refreshToken: refreshToken
+			}
+		});
+		if (!res) return { ok: false };
+		return { ok: true, res };
+	} catch (error) {
+		console.error('Error occurred during login:', error);
+		return { ok: false, message: 'An error occurred during login. Please try again later.' };
+	}
+};
 
