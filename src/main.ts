@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import '../src/tailwind.css';
 
+import '@mdi/font/css/materialdesignicons.css' 
 import 'vuetify/styles'
 
 import * as components from 'vuetify/components'
