@@ -1,10 +1,23 @@
-import { useAuth } from "../composable/useAuth"
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+import { useAuth } from '../composable/useAuth';
+import { useRefreshTokenStorage } from '../composable/useToken';
 
-const isAuthenticatedGuard = async (to: object, from: object, next: any) => {
+const isAuthenticatedGuard = async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    const { checkStatusLogin } = useAuth();
+    const { initIndexedDB } = useRefreshTokenStorage();
 
-    const { checkStatusLogin } = useAuth()
-    const isLogged = await checkStatusLogin()
+    try {
+        await initIndexedDB();
+        const isLogged = await checkStatusLogin();
+        if (isLogged) {
+            next();
+        } else {
+            next({ name: 'login-page' });
+        }
+    } catch (error) {
+        console.error('Error in isAuthenticatedGuard:', error);
+        next({ name: 'error-page' });
+    }
+};
 
-    isLogged ? next() : next({ name: 'login-page' })
-}
-export default isAuthenticatedGuard
+export default isAuthenticatedGuard;
