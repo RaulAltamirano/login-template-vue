@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <style>
+      .parallax-fill {
+        fill: #ffffff;
+      }
+    </style>
+    <linearGradient id="parallax-gradient" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="#0051FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+  </defs>
+  <rect class="parallax-fill" x="0" y="0" width="1920" height="1080" />
+  <rect x="0" y="0" width="1920" height="1080" fill="url(#parallax-gradient)" />
+</svg>
