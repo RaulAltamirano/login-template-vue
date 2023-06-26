@@ -18,6 +18,17 @@ export const postLoginUser = async (credentials: Credentials) => {
 		return { ok: false, message: 'An error occurred during login. Please try again later.' };
 	}
 };
+export const getLogoutUser = async () => {
+	const URL = '/auth/logout';
+	try {
+		const res = await ApiService.get(URL);
+		if (!res) return { ok: false };
+		return { ok: true, res };
+	} catch (error) {
+		console.error('Error occurred during logout:', error);
+		return { ok: false, message: 'An error occurred during logout. Please try again later.' };
+	}
+};
 export const postRefreshToken = async (refreshToken: string) => {
 	const URL = '/auth/refresh-token';
 	try {
@@ -37,7 +48,7 @@ export const postRefreshToken = async (refreshToken: string) => {
 		return { ok: false, message: 'An error occurred during refresh token update. Please try again later.' };
 	}
 }
-export const getCheckStatusLogin = async (refreshToken: string) => {
+export const postCheckStatusLogin = async (refreshToken: string) => {
 	const URL = '/auth/check-login';
 	try {
 		const res = await ApiService.post<User>({
