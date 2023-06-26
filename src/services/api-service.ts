@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { useRefreshTokenStorage } from "../composable/useToken";
 
-const { getTokens } = useRefreshTokenStorage()
+import { useRefreshTokenStorage } from "../composable/useToken";
+import { useAuth } from "../composable/useAuth";
 
 const api: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -9,6 +9,8 @@ const api: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+const { getTokens } = useRefreshTokenStorage()
+// const { onUpdateRefreshToken } = useAuth()
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
@@ -18,6 +20,9 @@ api.interceptors.response.use(
     const errorResponse = error.response;
     if (errorResponse) {
       console.error('Response Error:', errorResponse);
+      if (errorResponse.status === 401) {
+        // onUpdateRefreshToken()
+      }
     } else if (error.request) {
       console.error('Request Error:', error.request);
     } else {
@@ -26,6 +31,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 api.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
