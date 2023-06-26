@@ -2,7 +2,7 @@ import { computed } from 'vue';
 
 import { storeToRefs } from 'pinia';
 
-import { getCheckStatusLogin, postLoginUser, postRefreshToken } from '../utils/options-auth';
+import { getLogoutUser, postCheckStatusLogin, postLoginUser, postRefreshToken } from '../utils/options-auth';
 
 import { useAuthStore } from '../store/store-auth';
 import { useSweetAlert } from './useSweetAlert';
@@ -97,27 +97,34 @@ export const useAuth = () => {
 		}
 	};
 	const checkStatusLogin = async (): Promise<User | undefined> => {
-		const token = await useToken.getTokens();
-		if (!token) {
-			throw new Error('The token was not found');
+		try {
+			const token = await useToken.getTokens();
+			if (!token) {
+				throw new Error('Token not found. Please log in.');
+			}
+
+			const { refreshToken } = token;
+			const { ok, res } = await postCheckStatusLogin(refreshToken);
+			if (!ok || !res) {
+				throw new Error('Authentication check failed. Please log in again.');
+			}
+			authStore.setRefreshToken(res.refreshToken)
+			authStore.setLoginUser(res);
+			return res;
+		} catch (error) {
+			console.error('Error checking authentication:', error);
+			return;
 		}
-		const { refreshToken } = token
-		const { ok, message, res } = await getCheckStatusLogin(refreshToken)
-		if (!ok) {
-			console.error('Error chech authentication:', message);
-			return
-		}
-		if (!res) {
-			console.error('Error chech authentication:', message);
-			return
-		}
-		authStore.setLoginUser(res)
-		return res
+	};
+	const logoutUser = async (): Promise<boolean> => {
+		const { ok } = await getLogoutUser()
+		return ok
 	}
 
 	return {
 		// Methods
 		onLoginUser,
+		logoutUser,
 		checkStatusLogin,
 		onUpdateRefreshToken,
 		// Getters
