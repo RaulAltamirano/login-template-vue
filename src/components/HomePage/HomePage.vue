@@ -3,12 +3,12 @@
 <template>
   <v-row align="center" justify="center" class="h-screen">
     <v-col cols="12" sm="8" md="6" lg="4">
-      <v-card class="elevation-12">
+      <v-card class="auth-card elevation-12">
         <v-card-text class="px-6 py-8">
-          <div class="refresh-token-wrapper">
+          <div class="refresh-token-wrapper">0 0
             <p class="refresh-token-label">Refresh Token:</p>
             <p class="refresh-token">
-              {{ getRefreshToken }}
+              {{ getRefreshToken }}5
             </p>
           </div>
         </v-card-text>
@@ -18,12 +18,12 @@
           </v-btn>
         </v-card-actions>
         <v-card-actions>
-          <v-btn block color="primary" large rounded @click="toProtectedRoute">
+          <v-btn block color="primary" rounded @click="toProtectedRoute">
             Protected route
           </v-btn>
         </v-card-actions>
         <v-card-text>
-          <v-btn block color="primary" large rounded @click="logout">
+          <v-btn block color="primary" rounded @click="logout">
             Logout
           </v-btn>
         </v-card-text>
@@ -33,13 +33,13 @@
 </template>
 
 <style scoped>
-.v-card {
-  border-radius: 8px;
-}
 
-.v-img {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+.auth-card {
+  padding: 20px;
+  border-radius: 8px;
+  animation: fade-in 0.5s ease-in-out;
+  background-color: #f3f7f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .text-white {
