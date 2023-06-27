@@ -1,71 +1,117 @@
 <script src="./ProtectedRoute"/>
 
 <template>
-    <div class="parallax-container">
-      <div class="parallax">
-        <h1 class="parallax-title">Welcome to the Parallax Effect</h1>
-        <p class="parallax-description">This is a stunning parallax section.</p>
-      </div>
-      <div class="overlay">
-        <h2 class="protected-title">Protected Route Content</h2>
-        <p class="protected-description">This content is only visible to authenticated users.</p>
-      </div>
-    </div>
-  </template>
+ <v-row align="center" justify="center" class="h-screen">
+  <v-col cols="12" sm="8" md="6" lg="4">
+    <v-card class="elevation-12 rounded-lg shadow-lg" :class="{ 'animated': animated, 'bounceIn': animated }">
+      <v-img :src="user.avatar" :alt="user.name" height="200"></v-img>
+      <v-card-title class="text-center">
+        <h2 class="text-2xl font-bold">{{ user.name }}</h2>
+        <p class="text-gray-500">{{ user.email }}</p>
+      </v-card-title>
+      <v-card-text>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, velit vel bibendum bibendum, sapien nunc bibendum urna, vel bibendum sapien sapien vel velit.</p>
+      </v-card-text>
+      <v-card-actions class="justify-center">
+        <v-btn color="red" @click="logout" class="mr-1" :class="{ 'animate-pulse': animated }">
+          <v-icon>mdi-logout</v-icon>
+          Logout
+        </v-btn>
+        <v-btn color="primary" @click="goHome" :class="{ 'animate-bounce': animated }">
+          <v-icon>mdi-home</v-icon>
+          Home
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-col>
+</v-row>
+</template>
 
-<style scoped>
-.parallax-container {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
+<style>
+.animated {
+  animation-duration: 1s;
 }
 
-.parallax {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/home/pacman/Documents/WORKSPACE/login-template-vue/src/assets/waves.svg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: translate3d(0, 0, 0);
-  z-index: -1;
+@keyframes bounceIn {
+
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
 }
 
-.parallax-title {
-  color: #ffffff;
-  font-size: 3rem;
-  text-align: center;
-  margin-top: 30vh;
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
 }
 
-.parallax-description {
-  color: #ffffff;
-  font-size: 1.5rem;
-  text-align: center;
-  margin-top: 2rem;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.overlay {
-  position: relative;
-  z-index: 1;
-  padding: 2rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.protected-title {
-  color: #ffffff;
-  font-size: 2rem;
-  text-align: center;
-}
-
-.protected-description {
-  color: #ffffff;
-  font-size: 1.2rem;
-  text-align: center;
-  margin-top: 2rem;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
