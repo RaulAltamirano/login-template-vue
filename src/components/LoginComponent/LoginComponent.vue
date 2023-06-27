@@ -4,7 +4,7 @@
   <v-container fluid class="bg-gradient-to-r from-teal-500 to-blue-600 min-h-screen bg-svg-background">
     <v-row justify="center" align="center" class="min-h-screen">
       <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card class="elevation-12 rounded-lg">
+        <v-card class="elevation-12 rounded-lg shadow-lg">
           <v-row justify="center" align="center" class="text-center">
             <v-col cols="12">
               <v-card-title>
@@ -15,8 +15,10 @@
           </v-row>
           <v-card-text class="px-8 py-6">
             <v-form @submit="login">
-              <v-text-field v-model="email" label="Email" outlined required autocomplete="email"></v-text-field>
-              <v-text-field v-model="password" label="Password" outlined required type="password" autocomplete="current-password"></v-text-field>
+              <v-text-field v-model="email" label="Email" outlined required autocomplete="email"
+                class="mb-4"></v-text-field>
+              <v-text-field v-model="password" label="Password" outlined required type="password"
+                autocomplete="current-password" class="mb-4"></v-text-field>
               <v-btn color="secondary" dark block type="submit" class="animate-pulse">Sign In</v-btn>
             </v-form>
           </v-card-text>
@@ -31,13 +33,6 @@
 </template>
 
 <style scoped>
-.bg-svg-background {
-  background-image: url('src/assets/waves.svg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-
 .animate-bounce {
   animation: bounce 1s infinite;
 }
