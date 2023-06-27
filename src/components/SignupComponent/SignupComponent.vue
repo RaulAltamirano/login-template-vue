@@ -4,7 +4,7 @@
 	<v-container fluid class="bg-gradient-to-r from-teal-500 to-blue-600 min-h-screen bg-svg-background">
 		<v-row justify="center" align="center" class="min-h-screen">
 			<v-col cols="12" sm="8" md="6" lg="4">
-				<v-card class="elevation-12 rounded-lg">
+				<v-card class="auth-card elevation-12 rounded">
 					<v-card-title class="text-center">
 						<v-icon large color="dark" class="animate-bounce">mdi-account-plus</v-icon>
 						<h2 class="text-dark text-2xl font-bold">Sign Up</h2>
@@ -31,12 +31,13 @@
 </template>
   
 
-<style>
-.bg-svg-background {
-  background-image: url('src/assets/waves.svg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+<style scoped>
+.auth-card {
+  padding: 20px;
+  border-radius: 8px;
+  animation: fade-in 0.5s ease-in-out;
+  background-color: #f3f7f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .animate-bounce {
