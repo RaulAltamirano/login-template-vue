@@ -1,7 +1,7 @@
 <script lang="ts" src="./AuthenticatingPage"/>
 
 <template>
-  <v-container fluid fill-height>
+  <v-container class="flex items-center justify-center h-screen">
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6" lg="4">
         <v-card class="auth-card" elevation="12">
