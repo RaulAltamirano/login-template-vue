@@ -9,7 +9,8 @@ export default defineComponent({
 		const {
 			onUpdateRefreshToken,
 			getRefreshToken,
-			getLoadingRefreshToken
+			getLoadingRefreshToken,
+			logoutUser,
 		} = useAuth()
 		return {
 			getRefreshToken,
@@ -18,7 +19,7 @@ export default defineComponent({
 				onUpdateRefreshToken()
 			},
 			logout() {
-				console.log('logout');
+				logoutUser()
 			},
 			toProtectedRoute() {
 				router.push({ name: 'protected-route' })
