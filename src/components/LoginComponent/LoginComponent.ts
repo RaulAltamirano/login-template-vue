@@ -5,8 +5,8 @@ import { useRouter } from "vue-router"
 export default defineComponent({
 	name: 'login-form',
 	setup() {
-		const { onLoginUser } = useAuth()
 		const router = useRouter()
+		const { onLoginUser } = useAuth()
 		const password = ref<string>('')
 		const email = ref<string>('')
 		const showPassword = ref<boolean>(false)
