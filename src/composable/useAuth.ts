@@ -102,7 +102,6 @@ export const useAuth = () => {
 			if (!token) {
 				throw new Error('Token not found. Please log in.');
 			}
-
 			const { refreshToken } = token;
 			const { ok, res } = await postCheckStatusLogin(refreshToken);
 			if (!ok || !res) {
