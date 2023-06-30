@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { useRefreshTokenStorage } from "../composable/useToken";
-import { useAuth } from "../composable/useAuth";
+import { useRefreshTokenStorage } from "../modules/auth/composables/useToken";
+import { useAuth } from "../modules/auth/composables/useAuth";
 
 const api: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000/api',
