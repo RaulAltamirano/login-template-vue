@@ -1,10 +1,10 @@
 
 import { defineComponent, onMounted } from 'vue';
 
-import AuthenticatingPage from '../AuthenticatingPage/AuthenticatingPage.vue';
+import AuthenticatingPage from '../../modules/auth/views/AuthenticatingPage/AuthenticatingPage.vue';
 
-import { useAuth } from '../../composable/useAuth';
-import { useRefreshTokenStorage } from '../../composable/useToken';
+import { useAuth } from '../../modules/auth/composables/useAuth';
+import { useRefreshTokenStorage } from '../../modules/auth/composables/useToken';
 
 export default defineComponent({
   name: 'authenticating-page',
