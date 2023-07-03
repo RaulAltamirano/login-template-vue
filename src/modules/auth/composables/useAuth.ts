@@ -8,7 +8,12 @@ import {
 	postRefreshToken
 } from '../helper/options-auth';
 
-import { Credentials, Token, User } from '../interfaces';
+import {
+	AuthenticationStatus,
+	Credentials,
+	Token,
+	User
+} from '../interfaces';
 
 import { useSweetAlert } from '../../shared/composable/useSweetAlert';
 import { useRefreshTokenStorage } from './useToken';
@@ -39,12 +44,14 @@ export const useAuth = () => {
 				return;
 			}
 			if (!res.token) {
+				console.log(res);
 				sweetAlert.showErrorAlert('The token was not found');
 				return;
 			}
 			await updateTokens(res.token)
 			delete res.token
 			authStore.setLoginUser(res)
+			authStore.setStatusLogin(AuthenticationStatus.Authenticated)
 			return res;
 		} catch (error) {
 			console.error('Error logging in:', error);
@@ -84,7 +91,6 @@ export const useAuth = () => {
 			await updateTokens(newTokens)
 		} catch (error) {
 			console.error('Error updating refresh token:', error);
-			throw new Error('An error occurred while updating the refresh token');
 		} finally {
 			authStore.setLoadingRefreshToken(false);
 		}
@@ -110,14 +116,17 @@ export const useAuth = () => {
 			}
 			authStore.setRefreshToken(res.refreshToken)
 			authStore.setLoginUser(res);
+			authStore.setStatusLogin(AuthenticationStatus.Authenticated);
 			return res;
 		} catch (error) {
 			console.error('Error checking authentication:', error);
+			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 			return;
 		}
 	};
 	const logoutUser = async (): Promise<boolean> => {
 		const { ok } = await getLogoutUser()
+		authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated)
 		return ok
 	}
 
@@ -131,5 +140,6 @@ export const useAuth = () => {
 		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
 		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState),
 		getCurrentLoginUser: computed(() => authStore.currentLoginUserState),
+		getStatusLogin: computed(() => authStore.statusLoginState),
 	};
 };
