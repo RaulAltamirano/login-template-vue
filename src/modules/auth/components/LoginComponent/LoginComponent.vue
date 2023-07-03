@@ -4,7 +4,7 @@
   <v-container fluid class="bg-gradient-to-r from-teal-500 to-blue-600 min-h-screen bg-svg-background">
     <v-row justify="center" align="center" class="min-h-screen">
       <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card class="elevation-12 rounded-lg shadow-lg">
+        <v-card class="elevation-12 rounded-lg shadow-lg auth-card">
           <v-row justify="center" align="center" class="text-center">
             <v-col cols="12">
               <v-card-title>
@@ -32,7 +32,7 @@
   </v-container>
 </template>
 
-<style scoped>
+<style >
 .animate-bounce {
   animation: bounce 1s infinite;
 }
