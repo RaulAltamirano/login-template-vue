@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia';
 
-import { User } from '../interfaces';
-
+import { AuthenticationStatus, User } from '../interfaces';
 interface AuthStore {
-	statusLogin: boolean,
+	statusLogin: number | undefined,
 	userLogged: User | undefined,
 	loadingRefreshToken: boolean,
 	loadinglogin: boolean,
@@ -14,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
 	state: (): AuthStore => ({
 		loadinglogin: false,
 		loadingRefreshToken: false,
-		statusLogin: false,
+		statusLogin: AuthenticationStatus.Authenticating,
 		userLogged: undefined,
 		refreshToken: ''
 	}),
@@ -28,12 +27,13 @@ export const useAuthStore = defineStore('auth', {
 		setLoadingRefreshToken(value: boolean) {
 			this.loadingRefreshToken = value
 		},
-		setStatusLogin(value: boolean) {
+		setStatusLogin(value: number) {
 			this.statusLogin = value
 		}
 	},
 	getters: {
 		currentLoginUserState: (state: AuthStore) => state.userLogged,
+		statusLoginState: (state: AuthStore) => state.statusLogin,
 		currentRefreshTokenState: (state: AuthStore) => state.refreshToken,
 		loadingRefreshTokenState: (state: AuthStore) => state.loadingRefreshToken,
 	},
