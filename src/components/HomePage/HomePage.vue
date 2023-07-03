@@ -5,7 +5,7 @@
     <v-col cols="12" sm="8" md="6" lg="4">
       <v-card class="auth-card elevation-12">
         <v-card-text class="px-6 py-8">
-          <div class="refresh-token-wrapper">0 0
+          <div class="refresh-token-wrapper">
             <p class="refresh-token-label">Refresh Token:</p>
             <p class="refresh-token">
               {{ getRefreshToken }}5
@@ -32,8 +32,7 @@
   </v-row>
 </template>
 
-<style scoped>
-
+<style >
 .auth-card {
   padding: 20px;
   border-radius: 8px;
