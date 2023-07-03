@@ -11,46 +11,30 @@ const api: AxiosInstance = axios.create({
 });
 
 const { getTokens } = useRefreshTokenStorage()
-// api.interceptors.response.use(
-//   (response: AxiosResponse) => {
-//     return response.data;
-//   },
-//   (error: AxiosError) => {
-//     const errorResponse = error.response;
-//     if (errorResponse) {
-//       console.error('Response Error:', errorResponse);
-//       if (errorResponse.status === 401) {
-//         onUpdateRefreshToken()
-//       }
-//     } else if (error.request) {
-//       console.error('Request Error:', error.request);
-//     } else {
-//       console.error('Error:', error.message);
-//     }
-//     return Promise.reject(error);
-//   }
-// );
-
-
 
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const { onUpdateRefreshToken } = useAuth()
-      await getTokens()
-      await onUpdateRefreshToken()
-    }
-    if (error.response.status === 500) {
-      // retry the request after a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      return axios(originalRequest);
+  (response: AxiosResponse) => {
+    return response.data;
+  },
+  async (error: AxiosError) => {
+    const errorResponse = error.response;
+    if (errorResponse) {
+      console.error('Response Error:', errorResponse);
+      if (errorResponse.status === 401) {
+        const { onUpdateRefreshToken } = useAuth()
+        await getTokens()
+        await onUpdateRefreshToken()
+        console.info('refresh token updated');
+      }
+    } else if (error.request) {
+      console.error('Request Error:', error.request);
+    } else {
+      console.error('Error:', error.message);
     }
     return Promise.reject(error);
   }
 );
+
 
 api.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
