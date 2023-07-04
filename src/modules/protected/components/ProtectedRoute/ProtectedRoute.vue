@@ -3,11 +3,11 @@
 <template>
  <v-row align="center" justify="center" class="h-screen">
   <v-col cols="12" sm="8" md="6" lg="4">
-    <v-card class="elevation-12 rounded-lg shadow-lg" :class="{ 'animated': animated, 'bounceIn': animated }">
-      <v-img :src="user.avatar" :alt="user.name" height="200"></v-img>
+    <v-card class="elevation-12 rounded-lg shadow-lg auth-card" :class="{ 'animated': animated, 'bounceIn': animated }">
+      <v-img :src="user.avatar" :alt="getCurrentLoginUser.fullName" height="200"></v-img>
       <v-card-title class="text-center">
-        <h2 class="text-2xl font-bold">{{ user.name }}</h2>
-        <p class="text-gray-500">{{ user.email }}</p>
+        <h2 class="text-2xl font-bold">{{ getCurrentLoginUser.fullName }}</h2>
+        <p class="text-gray-500">{{ getCurrentLoginUser.email }}</p>
       </v-card-title>
       <v-card-text>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, velit vel bibendum bibendum, sapien nunc bibendum urna, vel bibendum sapien sapien vel velit.</p>
@@ -28,6 +28,7 @@
 </template>
 
 <style>
+
 .animated {
   animation-duration: 1s;
 }
