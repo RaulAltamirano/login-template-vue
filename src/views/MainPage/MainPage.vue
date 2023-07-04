@@ -3,7 +3,7 @@
 <template>
   <v-app>
     <v-main>
-      <AuthenticatingPage v-if="!getCurrentLoginUser" />
+      <AuthenticatingPage v-if="getStatusLogin === AuthenticationStatus.Authenticating" />
       <RouterView v-else />
     </v-main>
   </v-app>
