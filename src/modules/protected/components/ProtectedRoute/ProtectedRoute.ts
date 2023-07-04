@@ -1,5 +1,6 @@
 import { defineComponent, onMounted, ref } from "vue"
 import { useRouter } from "vue-router";
+import { useAuth } from "../../../auth/composables/useAuth";
 
 export default defineComponent({
 	name: 'protected-route',
@@ -11,6 +12,7 @@ export default defineComponent({
 			email: 'johndoe@example.com',
 			avatar: 'src/assets/avatar.svg'
 		};
+		const { getCurrentLoginUser } = useAuth()
 
 		onMounted(() => {
 			animated.value = true;
@@ -19,10 +21,11 @@ export default defineComponent({
 		return {
 			animated,
 			user,
-			goHome(){
+			getCurrentLoginUser,
+			goHome() {
 				router.push({ name: 'home-page' })
 			},
-			logout(){
+			logout() {
 				router.push({ name: 'home-page' })
 			}
 		};
