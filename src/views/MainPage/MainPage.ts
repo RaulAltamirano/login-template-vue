@@ -5,28 +5,29 @@ import AuthenticatingPage from '../../modules/auth/views/AuthenticatingPage/Auth
 
 import { useAuth } from '../../modules/auth/composables/useAuth';
 import { useRefreshTokenStorage } from '../../modules/auth/composables/useToken';
+import { AuthenticationStatus } from '../../modules/auth/interfaces';
 
 export default defineComponent({
   name: 'authenticating-page',
   components: { AuthenticatingPage },
   setup() {
-
     const {
       checkStatusLogin,
-      getCurrentLoginUser
+      getStatusLogin
     } = useAuth()
-    
+
     const {
       initIndexedDB
     } = useRefreshTokenStorage()
-    
+
     onMounted(async () => {
       await initIndexedDB()
       await checkStatusLogin();
     });
-    
+
     return {
-      getCurrentLoginUser,
+      getStatusLogin,
+      AuthenticationStatus,
     }
   }
 }
