@@ -18,14 +18,7 @@
   </v-container>
 </template>
 
-<style scoped>
-.auth-card {
-  padding: 20px;
-  border-radius: 8px;
-  animation: fade-in 0.5s ease-in-out;
-  background-color: #f3f7f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+<style>
 
 .spinner-wrapper {
   display: flex;
