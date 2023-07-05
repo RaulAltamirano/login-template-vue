@@ -1,5 +1,5 @@
 import { defineComponent } from "vue"
-import { useAuth } from "../../modules/auth/composables/useAuth"
+import { useAuth } from "../../../auth/composables/useAuth"
 import { useRouter } from "vue-router"
 
 export default defineComponent({
