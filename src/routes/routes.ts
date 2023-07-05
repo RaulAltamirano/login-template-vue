@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import isAuthenticatedGuard from '../modules/auth/guards/auth-guard';
 import authRouter from '../modules/auth/routes'
 
-const HomePage = () => import(/*webpackChunkName : "Home-page"*/'../components/HomePage/HomePage.vue');
+const HomePage = () => import(/*webpackChunkName : "Home-page"*/'../modules/home/components/HomePage/HomePage.vue');
 const ErrorNotFoundPage = () => import(/*webpackChunkName : "Error-not-found-page"*/'../views/ErrorNotFound/ErrorNotFound.vue');
 const ProtectedRoute = () => import(/*webpackChunkName : "Protected-page"*/'../modules/protected/components/ProtectedRoute/ProtectedRoute.vue');
 
