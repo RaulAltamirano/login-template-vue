@@ -2,7 +2,6 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import { useAuth } from '../composables/useAuth';
 import { useRefreshTokenStorage } from '../composables/useToken';
-// import { AuthenticationStatus } from '../interfaces';
 
 const isAuthenticatedGuard = async (
   to: RouteLocationNormalized,
@@ -13,9 +12,9 @@ const isAuthenticatedGuard = async (
   const { initIndexedDB } = useRefreshTokenStorage();
 
   try {
-    await initIndexedDB();
-    await checkStatusLogin();
-    (getStatusLogin.value)
+    await Promise.all([initIndexedDB, checkStatusLogin])
+    console.log(getStatusLogin.value);
+    (getStatusLogin.value === 1 ||  getStatusLogin.value === 2 )
       ? next()
       : next({ name: 'login-page' });
   } catch (error) {
