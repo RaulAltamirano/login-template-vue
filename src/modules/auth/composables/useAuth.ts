@@ -119,7 +119,7 @@ export const useAuth = () => {
 			authStore.setStatusLogin(AuthenticationStatus.Authenticated);
 			return res;
 		} catch (error) {
-			console.error('Error checking authentication:', error);
+			// console.error('Error checking authentication:', error);
 			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 			return;
 		}
@@ -132,14 +132,14 @@ export const useAuth = () => {
 
 	return {
 		// Methods
-		onLoginUser,
-		logoutUser,
 		checkStatusLogin,
+		logoutUser,
+		onLoginUser,
 		onUpdateRefreshToken,
 		// Getters
-		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
-		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState),
 		getCurrentLoginUser: computed(() => authStore.currentLoginUserState),
+		getLoadingRefreshToken: computed(() => authStore.loadingRefreshTokenState),
+		getRefreshToken: computed(() => authStore.currentRefreshTokenState),
 		getStatusLogin: computed(() => authStore.statusLoginState),
 	};
 };
