@@ -10,11 +10,10 @@ const isAuthenticatedGuard = async (
 ) => {
   const { checkStatusLogin, getStatusLogin } = useAuth();
   const { initIndexedDB } = useRefreshTokenStorage();
-
   try {
     await Promise.all([initIndexedDB, checkStatusLogin])
     console.log(getStatusLogin.value);
-    (getStatusLogin.value === 1 ||  getStatusLogin.value === 2 )
+    (getStatusLogin.value === 1 )
       ? next()
       : next({ name: 'login-page' });
   } catch (error) {
