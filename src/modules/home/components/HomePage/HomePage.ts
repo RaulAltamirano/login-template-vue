@@ -23,6 +23,9 @@ export default defineComponent({
 			},
 			toProtectedRoute() {
 				router.push({ name: 'protected-route' })
+			},
+			toSubscriptionRoute(){				
+				router.push({ name: 'subscription-route' })
 			}
 		}
 	}
