@@ -22,6 +22,11 @@
             Protected route
           </v-btn>
         </v-card-actions>
+        <v-card-actions>
+          <v-btn block color="primary" rounded @click="toSubscriptionRoute">
+            Subscriptions
+          </v-btn>
+        </v-card-actions>
         <v-card-text>
           <v-btn block color="primary" rounded @click="logout">
             Logout
