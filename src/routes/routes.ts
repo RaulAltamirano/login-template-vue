@@ -2,11 +2,11 @@ import { RouteRecordRaw } from 'vue-router';
 
 import isAuthenticatedGuard from '../modules/auth/guards/auth-guard';
 import authRouter from '../modules/auth/routes'
+import subscriptionRouter from '../modules/subscription/routes'
 
 const HomePage = () => import(/*webpackChunkName : "Home-page"*/'../modules/home/components/HomePage/HomePage.vue');
 const ErrorNotFoundPage = () => import(/*webpackChunkName : "Error-not-found-page"*/'../views/ErrorNotFound/ErrorNotFound.vue');
 const ProtectedRoute = () => import(/*webpackChunkName : "Protected-page"*/'../modules/protected/components/ProtectedRoute/ProtectedRoute.vue');
-const SubscriptionPage =() => import(/*webpackChunkName : "Protected-page"*/'../modules/subscription/views/SubscriptionPage.vue')
 
 const homeRoute: RouteRecordRaw = {
   path: '/home',
@@ -20,11 +20,6 @@ const protectedRoute: RouteRecordRaw = {
   component: ProtectedRoute,
 };
 
-const subscriptionRoute: RouteRecordRaw = {
-  path: '/subscription',
-  name: 'subscription-route',
-  component: SubscriptionPage,
-};
 const errorNotFoundRoute: RouteRecordRaw = {
   path: '/:catchAll(.*)*',
   component: ErrorNotFoundPage,
@@ -37,7 +32,11 @@ const routes: RouteRecordRaw[] = [
     redirect: '/home',
     beforeEnter: [isAuthenticatedGuard],
     component: () => import(/*webpackChunkName : "Main-page"*/ '../views/MainPage/MainPage.vue'),
-    children: [homeRoute, protectedRoute, subscriptionRoute],
+    children: [homeRoute, protectedRoute],
+  },
+  {
+    path: '/subscription',
+    ...subscriptionRouter
   },
   {
     path: '/auth',
