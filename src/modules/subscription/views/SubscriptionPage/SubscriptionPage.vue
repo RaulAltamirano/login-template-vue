@@ -4,8 +4,10 @@
 	<v-row align="center" justify="center" class="h-screen">
 		<v-row align="center" justify="center" class="pa-2 ma-2">
 			<v-col cols="12" class="ma-8">
-				<h2 class="text-h2" justify="center" align="center">Flexible Plans</h2>
-				<p class="text-caption primary-text" color="primary" align="center">
+				<h2 class="text-h2 write-effect" justify="center" align="center">
+					Flexible Plans
+				</h2>
+				<p class="text-caption primary-text write-effect" color="primary" align="center">
 					Choose a plan that works best for you and your team.
 				</p>
 			</v-col>
@@ -22,12 +24,32 @@
 	</v-row>
 </template>
 
-<style>
-.auth-card {
-	padding: 20px;
-	border-radius: 8px;
-	animation: fade-in 0.5s ease-in-out;
-	background-color: #f3f7f9;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+<style scoped>
+.write-effect {
+	overflow: hidden;
+	white-space: nowrap;
+	width: 0;
+	animation: write 1s steps(20) forwards, fade-in 1s 1s ease-in-out forwards;
+	opacity: 0;
+}
+
+@keyframes write {
+	from {
+		width: 0;
+	}
+
+	to {
+		width: 100%;
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
 }
 </style>
