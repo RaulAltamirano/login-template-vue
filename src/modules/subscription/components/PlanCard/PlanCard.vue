@@ -55,10 +55,11 @@
   font-size: 12px;
 }
 .PlanCard {
-    background-color: #fff;
+  	background-color: #f3f7f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
+    animation: fade-in 0.5s ease-in-out;
   }
 
   .PlanCard:hover {
