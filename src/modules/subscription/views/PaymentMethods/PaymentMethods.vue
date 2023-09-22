@@ -1,6 +1,6 @@
 <template>
-  <v-container class="min-h-screen bg-gray-200 flex items-center justify-center">
-    <v-card class="Card" max-width="600">
+  <v-row class="min-h-screen bg-gray-200 flex items-center justify-center">
+    <v-card class="auth-card" max-width="600">
       <v-row justify="center" align="center">
         <v-icon size="60">mdi-credit-card-outline</v-icon>
       </v-row>
@@ -51,7 +51,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-  </v-container>
+  </v-row>
 </template>
 
 <script>
@@ -94,17 +94,3 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Agrega tus estilos personalizados aquí si es necesario */
-.Card {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f3f7f9;
-  animation: fade-in 0.5s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.animated {
-  animation: slideIn 0.3s ease-out;
-}
-/* Personaliza estilos de validación aquí si es necesario */
-</style>
