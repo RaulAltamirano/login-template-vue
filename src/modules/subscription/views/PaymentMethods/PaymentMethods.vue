@@ -1,8 +1,8 @@
 <template>
-  <v-row class="min-h-screen bg-gray-200 flex items-center justify-center">
-    <v-card class="auth-card" max-width="600">
+  <v-row class="h-screen flex items-center justify-center">
+    <v-card>
       <v-row justify="center" align="center">
-        <v-icon size="60">mdi-credit-card-outline</v-icon>
+        <v-icon class="pa-8 ma-4" size="80">mdi-credit-card-outline</v-icon>
       </v-row>
       <v-card-title class="text-center font-bold text-xl uppercase">
         Secure Payment Information
@@ -11,10 +11,9 @@
         Select a payment method to proceed.
       </v-card-subtitle>
       <v-card-actions class="justify-center">
-        <v-radio-group v-model="selectedPayment"  class="pa-">
-          <v-radio   label="Credit/Debit Card" value="card" class="flex items-center">
-            <img src="https://cdn-icons-png.flaticon.com/128/147/147258.png" class="h-8 ml-3"
-              alt="Card Logo" />
+        <v-radio-group v-model="selectedPayment">
+          <v-radio label="Credit/Debit Card" value="card" class="ml-8">
+            <img src="https://cdn-icons-png.flaticon.com/128/147/147258.png"   alt="Card Logo" />
           </v-radio>
           <v-radio label="PayPal" value="paypal" class="flex items-center">
             <img src="https://www.sketchappsources.com/resources/source-image/PayPalCard.png" class="h-8 ml-3"
@@ -89,7 +88,7 @@ export default {
     submitPayment() {
       // Lógica para enviar el pago
     },
-    
+
   },
 };
 </script>
