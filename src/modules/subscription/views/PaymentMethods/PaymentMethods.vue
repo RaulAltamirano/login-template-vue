@@ -1,3 +1,5 @@
+<script lang="ts" src="./PaymentMethods.ts"/>
+
 <template>
   <v-row class="h-screen flex items-center justify-center">
     <v-card>
@@ -52,44 +54,4 @@
     </v-card>
   </v-row>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      selectedPayment: 'card',
-      cardName: '',
-      cardNumber: '',
-      cardExpirationMonth: null,
-      cardExpirationYear: null,
-      cardCVC: '',
-      months: [
-        '01 - January', '02 - February', '03 - March', '04 - April', '05 - May', '06 - June',
-        '07 - July', '08 - August', '09 - September', '10 - October', '11 - November', '12 - December'
-      ],
-      years: [
-        '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032'
-      ],
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => /^[A-Za-z\s]+$/.test(v) || 'Name must contain only letters and spaces',
-      ],
-      cardNumberRules: [
-        v => !!v || 'Card number is required',
-        v => /^\d{16}$/.test(v) || 'Card number must be 16 digits',
-      ],
-      cvcRules: [
-        v => !!v || 'Security code is required',
-        v => /^\d{3}$/.test(v) || 'Security code must be 3 digits',
-      ],
-    };
-  },
-  methods: {
-    submitPayment() {
-      // Lógica para enviar el pago
-    },
-
-  },
-};
-</script>
 
