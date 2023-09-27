@@ -59,21 +59,21 @@ export default defineComponent({
 		};
 
 		return {
-			selectedPayment,
-			cardName,
-			cardNumber,
+			cardCVC,
 			cardExpirationMonth,
 			cardExpirationYear,
-			cardCVC,
-			months,
-			years,
-			nameValid,
-			cardNumberValid,
-			cvcValid,
-			nameRules,
+			cardName,
+			cardNumber,
 			cardNumberRules,
+			cardNumberValid,
 			cvcRules,
+			cvcValid,
+			months,
+			nameRules,
+			nameValid,
+			selectedPayment,
 			submitPayment,
+			years,
 		};
 	}
 }
