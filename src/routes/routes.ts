@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/subscription',
+    beforeEnter: [isAuthenticatedGuard],
     ...subscriptionRouter
   },
   {
