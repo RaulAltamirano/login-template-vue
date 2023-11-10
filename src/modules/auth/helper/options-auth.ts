@@ -57,8 +57,8 @@ export const postCheckStatusLogin = async (refreshToken: string) => {
 				refreshToken: refreshToken
 			}
 		});
-		if (!res) return { ok: false, status: res };
-		return { ok: true, status: res, res };
+		if (!res) return { ok: false,  };
+		return { ok: true, res };
 	} catch (error) {
 		return { ok: false, message: 'An error occurred during login. Please try again later.' };
 	}
