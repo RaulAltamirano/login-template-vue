@@ -109,7 +109,6 @@ export const useAuth = () => {
 		try {
 			const token = await useToken.getTokens();
 			if (!token) {
-				router.push({ name: 'login-page' })
 				throw new Error('Token not found. Please log in.');
 			}
 			const { refreshToken } = token;
