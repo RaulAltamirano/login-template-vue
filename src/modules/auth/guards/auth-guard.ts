@@ -12,20 +12,22 @@ const isAuthenticatedGuard = async (
   const { initIndexedDB } = useRefreshTokenStorage();
   const { getStatusLogin, checkStatusLogin } = useAuth();
   await initIndexedDB()
-  
+
   const status = getStatusLogin.value;
   if (status === AuthenticationStatus.Authenticated) {
     next();
   } else if (status === AuthenticationStatus.Authenticating) {
     try {
-      await checkStatusLogin(); 
+      await checkStatusLogin();
       next();
     } catch (error) {
-      console.error('Error in isAuthenticatedGuard:', error);
-      next({ name: 'error-page' });
+      throw new Error('Authentication error');
     }
   } else if (status === AuthenticationStatus.NotAuthenticated) {
     next({ name: 'login-page' });
+  } else {
+    // Manejar otros estados si es necesario
+    next({ name: 'error-page' });
   }
 };
 
