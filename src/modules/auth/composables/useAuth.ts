@@ -18,13 +18,10 @@ import {
 import { useSweetAlert } from '../../shared/composable/useSweetAlert';
 import { useRefreshTokenStorage } from './useToken';
 import { useAuthStore } from '../store/store-auth';
-import { useRouter } from 'vue-router';
-
 
 export const useAuth = () => {
 	const authStore = useAuthStore();
 	const { } = storeToRefs(authStore);
-	const router = useRouter()
 
 	const useToken = useRefreshTokenStorage()
 	const sweetAlert = useSweetAlert()
@@ -92,7 +89,7 @@ export const useAuth = () => {
 			const newTokens = await refreshAccessToken(token.refreshToken);
 			await updateTokens(newTokens)
 		} catch (error) {
-			// console.error('Error updating refresh token:', error);
+			console.error('Error updating refresh token:', error);
 		} finally {
 			authStore.setLoadingRefreshToken(false);
 		}
@@ -121,17 +118,25 @@ export const useAuth = () => {
 			authStore.setStatusLogin(AuthenticationStatus.Authenticated);
 			return res;
 		} catch (error) {
-			router.push({ name: 'login-page' })
-			console.error('Error checking authentication:', error);
+			throw new Error('Error checking authentication:');
 		} finally {
 			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 		}
 	};
 	const logoutUser = async (): Promise<boolean> => {
-		const { ok } = await getLogoutUser()
-		authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated)
-		return ok
-	}
+		try {
+			const { ok } = await getLogoutUser();
+			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
+			// Limpiar tokens al hacer logout
+			// authStore.setLoginUser();
+			// authStore.setRefreshToken();
+			return ok;
+		} catch (error) {
+			console.error('Error logging out:', error);
+			return false;
+		}
+	};
+
 
 	return {
 		// Methods
