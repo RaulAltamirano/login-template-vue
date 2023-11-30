@@ -12,6 +12,14 @@ const api: AxiosInstance = axios.create({
 
 const { getTokens } = useRefreshTokenStorage()
 
+const refreshToken = async () => {
+  const { onUpdateRefreshToken } = useAuth();
+  const { getTokens } = useRefreshTokenStorage();
+  await getTokens();
+  await onUpdateRefreshToken();
+  console.info('Refresh token updated');
+};
+
 api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data;
@@ -53,15 +61,16 @@ export const ApiService = {
       const response = await api.get<T>(url, config);
       return response.data;
     } catch (error) {
+      console.error('Error in ApiService.get:', error);
       throw error;
     }
   },
 
   async post<T>(res: { url: string, data?: any, config?: AxiosRequestConfig }): Promise<T> {
-    const { url, config, data } = res
+    const { url, config, data } = res;
     try {
       const response = await api.post<T>(url, data, config);
-      return response as any
+      return response.data;
     } catch (error) {
       throw error;
     }
