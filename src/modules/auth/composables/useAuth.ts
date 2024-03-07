@@ -104,6 +104,8 @@ export const useAuth = () => {
 	};
 	const checkStatusLogin = async (): Promise<User | undefined> => {
 		try {
+			if (authStore.statusLoginState === AuthenticationStatus.NotAuthenticated )
+				authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 			const token = await useToken.getTokens();
 			if (!token) {
 				throw new Error('Token not found. Please log in.');
