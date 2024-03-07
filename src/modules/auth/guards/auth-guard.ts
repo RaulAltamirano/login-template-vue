@@ -13,7 +13,6 @@ const isAuthenticatedGuard = async (
   const { getStatusLogin, checkStatusLogin } = useAuth();
 
   await initIndexedDB();
-
   const status = getStatusLogin.value;
 
   try {
@@ -37,6 +36,5 @@ const isAuthenticatedGuard = async (
     next({ name: 'error-page' });
   }
 };
-
 
 export default isAuthenticatedGuard;
