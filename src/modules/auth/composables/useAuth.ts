@@ -27,6 +27,7 @@ export const useAuth = () => {
 	const sweetAlert = useSweetAlert()
 
 	const onLoginUser = async (credentials: Credentials): Promise<User | undefined> => {
+		console.log(credentials);
 		const { email, password } = credentials;
 		if (!email || !password) {
 			sweetAlert.showErrorAlert(`All fields are necessary`);
@@ -106,6 +107,7 @@ export const useAuth = () => {
 		try {
 			const token = await useToken.getTokens();
 			if (!token) {
+				authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 				throw new Error('Token not found. Please log in.');
 			}
 			const { refreshToken } = token;
