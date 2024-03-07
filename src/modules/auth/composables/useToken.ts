@@ -24,7 +24,7 @@ export const useRefreshTokenStorage = () => {
 			}
 		};
 	})();
-	initIndexedDB();
+	// initIndexedDB();
 
 	const storeTokens = async (tokens: Token) => {
 		const { accessToken, refreshToken } = tokens;
@@ -44,6 +44,7 @@ export const useRefreshTokenStorage = () => {
 
 	const getTokens = async () => {
 		try {
+			await initIndexedDB();
 			const tokenData = await db.value.get('tokens', 1);
 			if (tokenData) {
 				const decryptedAccessToken = decryptToken(tokenData.accessToken);
