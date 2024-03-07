@@ -26,20 +26,21 @@ api.interceptors.response.use(
   },
   async (error: AxiosError) => {
     const errorResponse = error.response;
-    if (errorResponse) {
-      console.error('Response Error:', errorResponse);
-      if (errorResponse.status === 401) {
-        const { onUpdateRefreshToken } = useAuth()
-        await getTokens()
-        await onUpdateRefreshToken()
-        console.info('refresh token updated');
+    try {
+      if (errorResponse) {
+        console.error('Response Error:', errorResponse);
+        if (errorResponse.status === 401) {
+          refreshToken()
+        }
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+      } else {
+        console.error('Error:', error.message);
       }
-    } else if (error.request) {
-      console.error('Request Error:', error.request);
-    } else {
-      console.error('Error:', error.message);
+      return Promise.reject(error);
+    } catch (error) {
+      console.log(error);
     }
-    return Promise.reject(error);
   }
 );
 
