@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-
 import { useRefreshTokenStorage } from "../modules/auth/composables/useToken";
 import { useAuth } from "../modules/auth/composables/useAuth";
 
@@ -10,14 +9,24 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-const { getTokens } = useRefreshTokenStorage()
+const { getTokens } = useRefreshTokenStorage();
+let isRefreshing = false;
+let refreshPromise: Promise<any> | null = null;
 
 const refreshToken = async () => {
-  const { onUpdateRefreshToken } = useAuth();
-  const { getTokens } = useRefreshTokenStorage();
-  await getTokens();
-  await onUpdateRefreshToken();
-  console.info('Refresh token updated');
+  if (isRefreshing) {
+    await refreshPromise;
+    return;
+  }
+  isRefreshing = true;
+  try {
+    const { onUpdateRefreshToken } = useAuth();
+    await getTokens();
+    await onUpdateRefreshToken();
+    console.info('Refresh token updated');
+  } finally {
+    isRefreshing = false;
+  }
 };
 
 api.interceptors.response.use(
@@ -30,7 +39,9 @@ api.interceptors.response.use(
       if (errorResponse) {
         console.error('Response Error:', errorResponse);
         if (errorResponse.status === 401) {
-          refreshToken()
+          if (!isRefreshing) {
+            refreshPromise = refreshToken();
+          }
         }
       } else if (error.request) {
         console.error('Request Error:', error.request);
@@ -39,11 +50,11 @@ api.interceptors.response.use(
       }
       return Promise.reject(error);
     } catch (error) {
-      console.log(error);
+      console.error('Error in response interceptor:', error);
+      return Promise.reject(error);
     }
   }
 );
-
 
 api.interceptors.request.use(async (config) => {
   const tokens = await getTokens();
@@ -52,9 +63,9 @@ api.interceptors.request.use(async (config) => {
   }
   return config;
 }, error => {
+  console.error('Error in request interceptor:', error);
   return Promise.reject(error);
 });
-
 
 export const ApiService = {
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
@@ -67,14 +78,13 @@ export const ApiService = {
     }
   },
 
-  async post<T>(res: { url: string, data?: any, config?: AxiosRequestConfig }): Promise<T> {
-    const { url, config, data } = res;
+  async post<T>({ url, data, config }: { url: string; data?: any; config?: AxiosRequestConfig }): Promise<T> {
     try {
       const response = await api.post<T>(url, data, config);
       return response.data;
     } catch (error) {
+      console.error('Error in ApiService.post:', error);
       throw error;
     }
   },
 };
-
