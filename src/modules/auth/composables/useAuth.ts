@@ -27,7 +27,6 @@ export const useAuth = () => {
 	const sweetAlert = useSweetAlert()
 
 	const onLoginUser = async (credentials: Credentials): Promise<User | undefined> => {
-		console.log(credentials);
 		const { email, password } = credentials;
 		if (!email || !password) {
 			sweetAlert.showErrorAlert(`All fields are necessary`);
