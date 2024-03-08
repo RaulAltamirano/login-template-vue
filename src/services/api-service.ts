@@ -71,7 +71,7 @@ export const ApiService = {
   async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
       const response = await api.get<T>(url, config);
-      return response.data;
+      return response.data; 
     } catch (error) {
       console.error('Error in ApiService.get:', error);
       throw error;
@@ -81,7 +81,7 @@ export const ApiService = {
   async post<T>({ url, data, config }: { url: string; data?: any; config?: AxiosRequestConfig }): Promise<T> {
     try {
       const response = await api.post<T>(url, data, config);
-      return response.data;
+      return response.data; 
     } catch (error) {
       console.error('Error in ApiService.post:', error);
       throw error;
