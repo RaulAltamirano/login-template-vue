@@ -21,6 +21,7 @@ export default defineComponent({
 					email: email.value,
 					password: password.value,
 				})
+				console.log(user);
 				if (user) router.push({ name: 'home-page' })
 			}
 		}
