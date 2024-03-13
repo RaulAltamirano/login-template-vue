@@ -35,7 +35,7 @@ export const useAuth = () => {
 		try {
 			const { ok, message, res } = await postLoginUser(credentials);
 			if (!ok) {
-				sweetAlert.showErrorAlert(message);
+				sweetAlert.showErrorAlert(message || 'An error occurred while logging in');
 				return;
 			}
 			if (!res) {
@@ -47,10 +47,10 @@ export const useAuth = () => {
 				sweetAlert.showErrorAlert('The token was not found');
 				return;
 			}
-			await updateTokens(res.token)
-			delete res.token
-			authStore.setLoginUser(res)
-			authStore.setStatusLogin(AuthenticationStatus.Authenticated)
+			await updateTokens(res.token);
+			delete res.token;
+			authStore.setLoginUser(res);
+			authStore.setStatusLogin(AuthenticationStatus.Authenticated);
 			return res;
 		} catch (error) {
 			console.error('Error logging in:', error);
@@ -58,11 +58,13 @@ export const useAuth = () => {
 		}
 	};
 
+
 	const updateTokens = async (token: Token) => {
 		const { accessToken, refreshToken } = token
 		authStore.setRefreshToken(refreshToken)
 		await useToken.storeTokens({ accessToken, refreshToken });
 	}
+
 	const refreshAccessToken = async (refreshToken: string): Promise<Token> => {
 		try {
 			const { ok, message, res } = await postRefreshToken(refreshToken);
@@ -97,16 +99,20 @@ export const useAuth = () => {
 
 	const onUpdateRefreshToken = async () => {
 		try {
-			await updateRefreshToken();
+			if (authStore.statusLoginState !== AuthenticationStatus.NotAuthenticated)
+				await updateRefreshToken();
 		} catch (error) {
 			sweetAlert.showErrorAlert(error);
 		}
 	};
+
 	const checkStatusLogin = async (): Promise<User | undefined> => {
 		try {
+			if (authStore.statusLoginState === AuthenticationStatus.NotAuthenticated) return
 			const token = await useToken.getTokens();
 			if (!token) {
 				authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
+				console.log(authStore.statusLoginState);
 				throw new Error('Token not found. Please log in.');
 			}
 			const { refreshToken } = token;
@@ -124,6 +130,7 @@ export const useAuth = () => {
 			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 		}
 	};
+
 	const logoutUser = async (): Promise<boolean> => {
 		try {
 			const { ok } = await getLogoutUser();
