@@ -9,13 +9,14 @@ const isAuthenticatedGuard = async (
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) => {
-  const { initIndexedDB } = useRefreshTokenStorage();
-  const { getStatusLogin, checkStatusLogin } = useAuth();
-
-  await initIndexedDB();
-  const status = getStatusLogin.value;
-
   try {
+    const { initIndexedDB } = useRefreshTokenStorage();
+    const { getStatusLogin, checkStatusLogin } = useAuth();
+
+    await initIndexedDB();
+    const status = getStatusLogin.value;
+    console.log(status);
+
     switch (status) {
       case AuthenticationStatus.Authenticated:
         next();
