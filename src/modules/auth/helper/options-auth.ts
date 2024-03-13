@@ -11,7 +11,6 @@ export const postLoginUser = async (credentials: Credentials) => {
 			url: URL,
 			data: credentials
 		});
-		console.log(res);
 		if (!res) return { ok: false };
 		return { ok: true, res };
 	} catch (error) {
