@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
 	state: (): AuthStore => ({
 		loadinglogin: false,
 		loadingRefreshToken: false,
-		statusLogin: AuthenticationStatus.NotAuthenticated,
+		statusLogin: AuthenticationStatus.Authenticating,
 		userLogged: undefined,
 		refreshToken: ''
 	}),
