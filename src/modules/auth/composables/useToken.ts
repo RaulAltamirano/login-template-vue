@@ -8,25 +8,24 @@ export const useRefreshTokenStorage = () => {
 
 	const db = ref<any>(null);
 	const encryptionKey = 'example';
+	const initIndexedDB = async () => {
+		try {
+			db.value = await openDB('skeleton-example', 1, {
+				upgrade(db) {
+					if (!db.objectStoreNames.contains('tokens')) {
+						db.createObjectStore('tokens', { keyPath: 'id' });
+					}
+				},
+			});
+		} catch (error) {
+			console.error('Error initializing IndexedDB:', error);
+		}
+	};
+	initIndexedDB()
 
-	const initIndexedDB = (() => {
-		let initialized = false;
-		return async () => {
-			if (!initialized) {
-				db.value = await openDB('skeleton-example', 1, {
-					upgrade(db) {
-						if (!db.objectStoreNames.contains('tokens')) {
-							db.createObjectStore('tokens', { keyPath: 'id' });
-						}
-					},
-				});
-				initialized = true;
-			}
-		};
-	})();
-	// initIndexedDB();
 
 	const storeTokens = async (tokens: Token) => {
+		await initIndexedDB()
 		const { accessToken, refreshToken } = tokens;
 		try {
 			const encryptedAccessToken = encryptToken(accessToken);
@@ -44,7 +43,7 @@ export const useRefreshTokenStorage = () => {
 
 	const getTokens = async () => {
 		try {
-			await initIndexedDB();
+			await initIndexedDB()
 			const tokenData = await db.value.get('tokens', 1);
 			if (tokenData) {
 				const decryptedAccessToken = decryptToken(tokenData.accessToken);
