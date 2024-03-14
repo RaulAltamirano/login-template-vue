@@ -13,11 +13,11 @@ export default defineComponent({
   setup() {
     const {
       checkStatusLogin,
-      getStatusLogin
+      getStatusLogin,
     } = useAuth()
 
     const {
-      initIndexedDB
+      initIndexedDB,
     } = useRefreshTokenStorage()
 
     onMounted(async () => {
