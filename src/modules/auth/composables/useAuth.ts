@@ -18,11 +18,12 @@ import {
 import { useSweetAlert } from '../../shared/composable/useSweetAlert';
 import { useRefreshTokenStorage } from './useToken';
 import { useAuthStore } from '../store/store-auth';
+import { useRouter } from 'vue-router';
 
 export const useAuth = () => {
 	const authStore = useAuthStore();
 	const { } = storeToRefs(authStore);
-
+	const router = useRouter()
 	const useToken = useRefreshTokenStorage()
 	const sweetAlert = useSweetAlert()
 
@@ -99,8 +100,11 @@ export const useAuth = () => {
 
 	const onUpdateRefreshToken = async () => {
 		try {
-			if (authStore.statusLoginState !== AuthenticationStatus.NotAuthenticated)
+			if (authStore.statusLoginState !== AuthenticationStatus.NotAuthenticated) {
 				await updateRefreshToken();
+				return
+			}
+			authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
 		} catch (error) {
 			sweetAlert.showErrorAlert(error);
 		}
@@ -108,11 +112,14 @@ export const useAuth = () => {
 
 	const checkStatusLogin = async (): Promise<User | undefined> => {
 		try {
-			if (authStore.statusLoginState === AuthenticationStatus.NotAuthenticated) return
+			if (authStore.statusLoginState === AuthenticationStatus.NotAuthenticated) {
+				authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
+				return
+			}
 			const token = await useToken.getTokens();
 			if (!token) {
 				authStore.setStatusLogin(AuthenticationStatus.NotAuthenticated);
-				console.log(authStore.statusLoginState);
+				router.push({ name: 'home-page' })
 				throw new Error('Token not found. Please log in.');
 			}
 			const { refreshToken } = token;
