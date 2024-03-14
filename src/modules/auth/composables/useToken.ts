@@ -5,9 +5,9 @@ import { AES, enc } from 'crypto-js';
 import { Token } from '../interfaces/user-token';
 
 export const useRefreshTokenStorage = () => {
-
 	const db = ref<any>(null);
 	const encryptionKey = 'example';
+
 	const initIndexedDB = async () => {
 		try {
 			db.value = await openDB('skeleton-example', 1, {
@@ -43,7 +43,6 @@ export const useRefreshTokenStorage = () => {
 
 	const getTokens = async () => {
 		try {
-			await initIndexedDB()
 			const tokenData = await db.value.get('tokens', 1);
 			if (tokenData) {
 				const decryptedAccessToken = decryptToken(tokenData.accessToken);
