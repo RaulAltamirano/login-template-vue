@@ -23,7 +23,6 @@ const refreshToken = async () => {
     const { onUpdateRefreshToken } = useAuth();
     await getTokens();
     await onUpdateRefreshToken();
-    console.info('Refresh token updated');
   } finally {
     isRefreshing = false;
   }
