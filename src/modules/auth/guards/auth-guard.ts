@@ -13,8 +13,7 @@ const isAuthenticatedGuard = async (
     const { initIndexedDB } = useRefreshTokenStorage();
     const { getStatusLogin, checkStatusLogin } = useAuth();
 
-    await initIndexedDB();
-    await checkStatusLogin()
+    // await initIndexedDB();
 
     const status = getStatusLogin.value;
     console.log({status});
