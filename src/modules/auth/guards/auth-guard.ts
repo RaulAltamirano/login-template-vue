@@ -14,8 +14,10 @@ const isAuthenticatedGuard = async (
     const { getStatusLogin, checkStatusLogin } = useAuth();
 
     await initIndexedDB();
+    await checkStatusLogin()
+
     const status = getStatusLogin.value;
-    console.log(status);
+    console.log({status});
 
     switch (status) {
       case AuthenticationStatus.Authenticated:
